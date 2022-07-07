@@ -15,11 +15,11 @@ public class BankMenu {
 
     public void showStartMenu(){
         Scanner console = new Scanner(System.in);
-        System.out.println("Добрый день!\nЧто вы хотите сделать?\n1:Авторизоваться\n2:Зарегистрироваться\n3:Выход");
+        System.out.println("Hello\nWhat are you want?\n1:Login\n2:Register\n3:Exit");
 
         int a = console.nextInt();
         if (a > 3 || a < 1){
-            System.out.println("Такого варианта нет");
+            System.out.println("Please choose the correct option");
             System.exit(0);
         }
         if(a == 3){
@@ -51,7 +51,7 @@ public class BankMenu {
     }
 
     public void showBankMenuAdmin(){
-        System.out.println("1.Показать мою информацию\n2:Взять кредит\n3:Оформить кредитную карту\n4:Показать статистику банка\n0:Выход");
+        System.out.println("1.Show my info\n2:Add loan\n3:Add debit card\n4:Show admin statistics\n0:Exit");
 
         Scanner console = new Scanner(System.in);
         int answer = console.nextInt();
@@ -82,7 +82,7 @@ public class BankMenu {
         List <User> listSorted = userListAdmin.stream()
                 .sorted((x,y) -> Integer.compare(y.getCreditList().size(), x.getCreditList().size()))
                 .collect(Collectors.toList());
-        System.out.println("Пользователи, по кол-ву кредитов: " + listSorted);
+        System.out.println("Users, by number of credits: " + listSorted);
     }
 
     public void showLoan(){
@@ -91,7 +91,7 @@ public class BankMenu {
 
         Scanner console = new Scanner(System.in);
 
-        System.out.println("Введите желаемую сумму кредита");
+        System.out.println("Enter the desired loan amount");
         double userSumm = 0;
         try {
             userSumm = buffLogin.read();
@@ -99,14 +99,14 @@ public class BankMenu {
             System.out.println();
         }
 
-        System.out.println("Ваша месячная процентная ставка = 3%");
+        System.out.println("Your monthly interest rate = 3%");
         double userPercentBid = 0.03;
 
-        System.out.println("На какой срок желаете взять кредит?");
+        System.out.println("For how long would you like to take out a loan?");
         int userDurationLoan = console.nextInt();
 
         double userPaymentMonthly = userSumm / userDurationLoan + userSumm * userPercentBid;
-        System.out.println("Ваш ежемесячный платеж = " + userPaymentMonthly);
+        System.out.println("Your monthly payment = " + userPaymentMonthly);
 
 
         Loan userLoan = new Loan(userRegistration, userSumm, userPercentBid, userDurationLoan, userPaymentMonthly);
@@ -130,24 +130,24 @@ public class BankMenu {
 
     public void showDebitCard(){
         try(BufferedReader buffCard = new BufferedReader(new InputStreamReader(System.in));){
-            System.out.println("Введите сумму начального взноса");
+            System.out.println("Enter the amount of the initial payment");
             double userCurrentBalance = buffCard.read();
 
             String userCardNumber = generateCardNumber();
-            System.out.println("Ваш номер карты: " + userCardNumber);
+            System.out.println("Your card number: " + userCardNumber);
 
 
             Calendar calendar = Calendar.getInstance();
             calendar.add(Calendar.YEAR, 4);
 
             int userCvv = generateCvv();
-            System.out.println("Ваш код CVV - " + userCvv);
+            System.out.println("Your CVV code - " + userCvv);
 
             DebitCard userDebitCard = new DebitCard(userCurrentBalance, userCardNumber, calendar, userCvv);
             bank.doCreateCard(userDebitCard);
         }
         catch (IOException e){
-            System.out.println("Не возможно считать с консоли");
+            System.out.println("Can't read from console");
         }
     }
 
@@ -155,40 +155,40 @@ public class BankMenu {
         BufferedReader buffShowLogin = new BufferedReader(new InputStreamReader(System.in));
         Scanner console = new Scanner(System.in);
 
-        System.out.println("Введите Email");
+        System.out.println("Enter Email");
         String email = console.nextLine();
-        System.out.println("Введите Пароль");
+        System.out.println("Enter Password");
         String password = console.nextLine();
 
         if (bank.doLogin(email, password)){
-            System.out.println("Вы успешно авторизировались");
+            System.out.println("You have successfully logged in");
             if(email.equals("admin")){
                 showBankMenuAdmin();
             } else {
                 showBankMenu();
             }
         } else {
-            System.out.println("Произошла ошибка авторизации");
+            System.out.println("An authorization error has occurred");
         }
     }
     public void showRegister(){
         try(BufferedReader buffShowRegister = new BufferedReader(new InputStreamReader(System.in))) {
             Scanner console = new Scanner(System.in);
 
-            System.out.println("Введите Ваше имя");
+            System.out.println("Enter your first name");
             String userFirstName = buffShowRegister.readLine();
 
-            System.out.println("Введите Вашу фамилию");
+            System.out.println("Enter your last name");
             String userLastName = buffShowRegister.readLine();
 
-            System.out.println("Введите дату рождения, в формате : yyyy-MM-dd");
+            System.out.println("Enter your date of birth, in the format: yyyy-MM-dd");
             String userDate = buffShowRegister.readLine();
             SimpleDateFormat s = new SimpleDateFormat("yyyy-MM-dd");
             Date userBirthday;
             try {
                 userBirthday = s.parse(userDate);
             } catch (ParseException e) {
-                System.out.println("Дата рождения введена в неверном формате");
+                System.out.println("Date of birth entered in the wrong format");
                 return;
             }
 
@@ -196,10 +196,10 @@ public class BankMenu {
 
             boolean userIsMan = false;
             while (a == 0){
-                System.out.println("Выберите ваш пол\n1:Мужчина;\n2:Женщина");
+                System.out.println("Choose your gender\n1:Male;\n2:Female");
                 int answer = console.nextInt();
                 if (answer > 2 || answer < 1 ){
-                    System.out.println("Вы ввели неверный ответ");
+                    System.out.println("You entered an incorrect answer");
                     continue;
                 } else if (answer==1){
                     userIsMan = true;
@@ -208,11 +208,11 @@ public class BankMenu {
                 }
                 a = 1;
             }
-            System.out.println("Введите свой Email");
+            System.out.println("Enter your Email");
             String userEmail = buffShowRegister.readLine();
 
 
-            System.out.println("Введите свой пароль");
+            System.out.println("Enter your password");
             String userPassword = buffShowRegister.readLine();
 
             Date userTimeRegist = new Date();
@@ -222,7 +222,7 @@ public class BankMenu {
             bank.doRegister(user);
         }
         catch (IOException e){
-            System.out.println("Невозможно считать с консоли");
+            System.out.println("Unable to read from console");
         }
     }
 }

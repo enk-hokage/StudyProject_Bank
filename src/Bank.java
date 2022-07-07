@@ -24,12 +24,12 @@ public class Bank {
     public boolean doLogin(String email, String password){
         for(User u: usersList){
             if (u.getEmail().equals(email) && u.getPassword().equals(password)){
-                System.out.println("Авторизация успешна");
+                System.out.println("Authorization successful");
                 loggedUser = u;
                 return true;
             }
         }
-        System.out.println("Неверный Email или пароль");
+        System.out.println("Invalid Email or Password");
         return false;
     }
 
@@ -60,7 +60,7 @@ public class Bank {
 
             oos.close();
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла");
+            System.out.println("File read error");
         }
     }
 
@@ -75,7 +75,7 @@ public class Bank {
             try {
                 new File("Users.data").createNewFile();
             } catch (IOException ex) {
-                System.out.println("Невозможно создать файл");
+                System.out.println("File read error");
             }
 
             String adminFirstName = "Admin";
@@ -89,9 +89,9 @@ public class Bank {
             User user = new User(adminFirstName, adminLastName, adminBirthday, adminIsMan, adminEmail, adminPassword, adminRegist);
             doRegister(user);
         } catch (IOException e) {
-            System.out.println("Ошибка чтения файла");
+            System.out.println("File read error");
         } catch (ClassNotFoundException e) {
-            System.out.println("Ошибка класса");
+            System.out.println("Class error");
         }
     }
 }
